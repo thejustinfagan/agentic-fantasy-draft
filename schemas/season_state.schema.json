@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/agentic-fantasy-draft/schemas/season_state.schema.json",
+  "title": "Normalized season state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "transform_version", "mode", "identity", "snapshot", "league", "roster", "ownership", "faab", "waivers", "transactions", "matchups", "standings", "nfl", "horizons", "data_gaps"],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "transform_version": {"type": "string", "minLength": 1},
+    "mode": {"enum": ["DISARMED", "SHADOW", "SHOW_ME", "ASK_ME", "FULL_AUTO"]},
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["league_id", "roster_id", "owner_id", "team_name", "season", "week"],
+      "properties": {
+        "league_id": {"type": "string", "minLength": 1},
+        "roster_id": {"type": "integer", "minimum": 1},
+        "owner_id": {"type": "string", "minLength": 1},
+        "team_name": {"type": "string", "minLength": 1},
+        "season": {"type": "integer", "minimum": 2000},
+        "week": {"type": "integer", "minimum": 1, "maximum": 18}
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["snapshot_time_utc", "max_age_seconds", "checksum_sha256", "sources"],
+      "properties": {
+        "snapshot_time_utc": {"type": "string", "format": "date-time"},
+        "max_age_seconds": {"type": "integer", "minimum": 1},
+        "checksum_sha256": {"$ref": "#/$defs/hash"},
+        "sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/source"}}
+      }
+    },
+    "league": {
+      "type": "object",
+      "required": ["settings_validated", "conflicts"],
+      "properties": {
+        "league_id": {"type": "string"},
+        "name": {"type": ["string", "null"]},
+        "season": {"type": ["string", "integer", "null"]},
+        "status": {"type": ["string", "null"]},
+        "roster_positions": {"type": "array", "items": {"type": "string"}},
+        "settings": {"type": "object"},
+        "scoring_settings": {"type": "object"},
+        "settings_validated": {"type": "boolean"},
+        "conflicts": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "roster": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["players", "starters", "bench", "ir", "reserve"],
+      "properties": {
+        "players": {"type": "array", "items": {"$ref": "#/$defs/player"}},
+        "starters": {"$ref": "#/$defs/id_array"},
+        "bench": {"$ref": "#/$defs/id_array"},
+        "ir": {"$ref": "#/$defs/id_array"},
+        "reserve": {"$ref": "#/$defs/id_array"}
+      }
+    },
+    "ownership": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sleeper_id", "roster_id", "status"],
+        "properties": {
+          "sleeper_id": {"type": "string", "minLength": 1},
+          "roster_id": {"type": ["integer", "null"]},
+          "status": {"enum": ["rostered", "waivers", "free_agent", "unknown"]},
+          "waiver_release_utc": {"type": ["string", "null"], "format": "date-time"}
+        }
+      }
+    },
+    "faab": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["starting_budget", "remaining", "minimum_bid"],
+      "properties": {
+        "starting_budget": {"type": "integer", "minimum": 0},
+        "remaining": {"type": ["integer", "null"], "minimum": 0},
+        "minimum_bid": {"type": "integer", "minimum": 0},
+        "waiver_position": {"type": ["integer", "null"], "minimum": 1}
+      }
+    },
+    "waivers": {"type": "array", "items": {"$ref": "#/$defs/transaction"}},
+    "transactions": {"type": "array", "items": {"$ref": "#/$defs/transaction"}},
+    "matchups": {"type": "array", "items": {"$ref": "#/$defs/matchup"}},
+    "standings": {"type": "array", "items": {"$ref": "#/$defs/standing"}},
+    "nfl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["games", "byes", "availability"],
+      "properties": {
+        "games": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["game_id", "week", "home_team", "away_team", "kickoff_utc", "status"],
+            "properties": {
+              "game_id": {"type": "string", "minLength": 1},
+              "week": {"type": "integer", "minimum": 1, "maximum": 18},
+              "home_team": {"type": "string"},
+              "away_team": {"type": "string"},
+              "kickoff_utc": {"type": ["string", "null"], "format": "date-time"},
+              "status": {"type": "string"}
+            }
+          }
+        },
+        "byes": {"type": "object", "additionalProperties": {"type": ["integer", "null"], "minimum": 1, "maximum": 18}},
+        "availability": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["sleeper_id", "injury_status", "practice_status", "ir_eligible", "as_of_utc"],
+            "properties": {
+              "sleeper_id": {"type": "string", "minLength": 1},
+              "injury_status": {"type": ["string", "null"]},
+              "practice_status": {"type": ["string", "null"]},
+              "ir_eligible": {"type": ["boolean", "null"]},
+              "as_of_utc": {"type": "string", "format": "date-time"}
+            }
+          }
+        }
+      }
+    },
+    "horizons": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["current_week", "next_2", "next_4", "next_6", "playoffs", "keeper_year"],
+      "properties": {
+        "current_week": {"$ref": "#/$defs/week_array"},
+        "next_2": {"$ref": "#/$defs/week_array"},
+        "next_4": {"$ref": "#/$defs/week_array"},
+        "next_6": {"$ref": "#/$defs/week_array"},
+        "playoffs": {"$ref": "#/$defs/week_array"},
+        "keeper_year": {"type": "integer", "minimum": 2027}
+      }
+    },
+    "data_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field", "reason", "severity"],
+        "properties": {
+          "field": {"type": "string", "minLength": 1},
+          "reason": {"type": "string", "minLength": 1},
+          "severity": {"enum": ["info", "warning", "blocking"]},
+          "source": {"type": ["string", "null"]}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "id_array": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "week_array": {"type": "array", "uniqueItems": true, "items": {"type": "integer", "minimum": 1, "maximum": 18}},
+    "transaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["transaction_id", "type", "status", "created", "adds", "drops", "settings", "waiver_budget"],
+      "properties": {
+        "transaction_id": {"type": "string", "minLength": 1},
+        "type": {"type": "string", "minLength": 1},
+        "status": {"type": "string", "minLength": 1},
+        "created": {"type": "integer", "minimum": 0},
+        "adds": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 1}},
+        "drops": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 1}},
+        "settings": {"type": "object"},
+        "waiver_budget": {"type": "array", "items": {"type": "object"}}
+      }
+    },
+    "matchup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["roster_id", "matchup_id", "points", "custom_points", "players", "starters", "players_points", "starters_points"],
+      "properties": {
+        "roster_id": {"type": "integer", "minimum": 1},
+        "matchup_id": {"type": ["integer", "null"], "minimum": 1},
+        "points": {"type": "number"},
+        "custom_points": {"type": ["number", "null"]},
+        "players": {"$ref": "#/$defs/id_array"},
+        "starters": {"$ref": "#/$defs/id_array"},
+        "players_points": {"type": "object", "additionalProperties": {"type": "number"}},
+        "starters_points": {"type": "array", "items": {"type": "number"}}
+      }
+    },
+    "standing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["roster_id", "owner_id", "wins", "losses", "ties", "points_for"],
+      "properties": {
+        "roster_id": {"type": "integer", "minimum": 1},
+        "owner_id": {"type": "string", "minLength": 1},
+        "wins": {"type": "integer", "minimum": 0},
+        "losses": {"type": "integer", "minimum": 0},
+        "ties": {"type": "integer", "minimum": 0},
+        "points_for": {"type": "number"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_type", "url", "retrieved_at_utc", "checksum_sha256", "status", "limitations"],
+      "properties": {
+        "source_type": {"enum": ["sleeper_public_api", "nflverse", "official_nfl", "official_team", "repository_file", "sanitized_fixture"]},
+        "url": {"type": "string", "minLength": 1},
+        "retrieved_at_utc": {"type": "string", "format": "date-time"},
+        "checksum_sha256": {"$ref": "#/$defs/hash"},
+        "status": {"enum": ["available", "partial", "unavailable"]},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "player": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sleeper_id", "name", "position", "nfl_team", "roster_id"],
+      "properties": {
+        "sleeper_id": {"type": "string", "minLength": 1},
+        "gsis_id": {"type": ["string", "null"]},
+        "name": {"type": "string", "minLength": 1},
+        "position": {"enum": ["QB", "RB", "WR", "TE"]},
+        "nfl_team": {"type": ["string", "null"]},
+        "roster_id": {"type": ["integer", "null"]}
+      }
+    }
+  }
+}

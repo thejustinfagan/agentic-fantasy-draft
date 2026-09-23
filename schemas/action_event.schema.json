@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/agentic-fantasy-draft/schemas/action_event.schema.json",
+  "title": "Secret-free action audit event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "occurred_at_utc", "action_id", "league_id", "roster_id", "approval_card_id", "event_type", "lifecycle_state", "mode", "outcome", "reasons", "retry_allowed"],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "occurred_at_utc": {"type": "string", "format": "date-time"},
+    "action_id": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "league_id": {"type": "string", "minLength": 1},
+    "roster_id": {"type": "integer", "minimum": 1},
+    "approval_card_id": {"type": ["string", "null"]},
+    "event_type": {"enum": ["recommendation", "approval", "rejection", "staleness", "preflight", "hypothetical_execution", "verification", "manual_takeover", "restart"]},
+    "lifecycle_state": {"enum": ["OBSERVE", "RECOMMENDED", "PENDING_APPROVAL", "APPROVED", "PREFLIGHT", "EXECUTING", "VERIFIED", "STALE", "BLOCKED", "AMBIGUOUS"]},
+    "mode": {"enum": ["DISARMED", "SHADOW", "SHOW_ME", "ASK_ME", "FULL_AUTO"]},
+    "outcome": {"type": "string", "minLength": 1},
+    "reasons": {"type": "array", "items": {"type": "string"}},
+    "retry_allowed": {"type": "boolean"}
+  }
+}

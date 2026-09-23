@@ -1,0 +1,16 @@
+position,position_tier,position_rank,player_name,sleeper_id,team,final_score,projection_league_points,expected_round,ffc_adp,availability,rookie_keeper_grade,confidence
+QB,1,1,Wren Calder,fake-2001,SEA,87,24.1,1,6,AVAILABLE,none,low
+WR,1,1,Ivo Marsh,fake-2002,MIA,80,20.2,1,9,AVAILABLE,none,low
+RB,1,1,Quin Harlow,fake-2003,DET,78,19.0,1,11,AVAILABLE,none,low
+WR,2,2,Tess Quay,fake-2004,GB,69,17.6,2,18,AVAILABLE,none,low
+QB,2,2,Boone Laird,fake-2005,LAC,66,20.0,3,32,AVAILABLE,none,low
+RB,2,2,Remy Holt,fake-2006,KC,63,16.4,2,28,AVAILABLE,none,low
+RB,3,4,Pilot Greer,fake-2007,ATL,52,13.8,5,55,AVAILABLE,B,low
+RB,4,5,Jory Finch,fake-2008,CHI,38,14.8,3,40,AVAILABLE,none,low
+WR,3,3,Sable Ortiz,fake-2009,BUF,57,16.0,2,27,MANUAL,none,low
+RB,5,12,Reed Calder,fake-k1,SF,32,8.1,,,KEEPER,none,low
+TE,4,8,Pax Ellison,fake-k2,CLE,28,7.2,,,KEEPER,none,low
+TE,2,3,Nico Vale,fake-k3,NE,36,9.0,,,KEEPER,none,low
+WR,2,4,Kade Vesper,fake-k4,DAL,61,14.4,,,KEEPER,none,low
+WR,3,6,Ellis Rowan,fake-k5,BAL,50,12.1,,,KEEPER,none,low
+RB,5,14,Maren Sol,fake-k6,NYJ,30,7.8,,,KEEPER,none,low

@@ -1,0 +1,2 @@
+player_name,sleeper_id,position,team,draft_round,draft_pick,current_year_grade,keeper_option_grade,target_earliest_round,target_latest_round,auto_eligible,manual_flag,recommendation,thesis,last_verified,source_url,model_final_score,model_pool_rank,ffc_adp,availability
+Pilot Greer,fake-2007,RB,ATL,3,80,B,B,5,7,true,false,windowed,FAKE rookie option — Harbor Cats demo only,2026-09-01,https://example.com/fake-rookie,52,7,55,AVAILABLE

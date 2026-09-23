@@ -1,0 +1,8 @@
+preset_rank,sleeper_id,player_name,position,team,final_score,current_year_score,overall_tier,position_rank,position_tier,projection_league_points,expected_round,ffc_adp,keeper_adjusted_market_pick,value_gap,rookie_keeper_grade,target_window,queue_earliest_round,queue_floor_pick,confidence,roster_gate,rationale,as_of_date
+1,fake-1001,Wren Calder,QB,SEA,80,78,1,1,1,22.4,1,8,6,2,none,,1,6,low,none,FAKE emergency order,2026-09-01
+2,fake-1002,Ivo Marsh,WR,MIA,73,71,1,1,1,18.8,1,12,9,1,none,,1,9,low,none,FAKE emergency order,2026-09-01
+3,fake-1003,Quin Harlow,RB,DET,70,69,2,1,1,17.9,2,15,11,1,none,,2,11,low,none,FAKE emergency order,2026-09-01
+4,fake-1006,Tess Quay,WR,GB,62,61,2,2,2,16.2,2,22,18,0,none,,2,18,low,none,FAKE emergency order,2026-09-01
+5,fake-1007,Boone Laird,QB,LAC,61,60,2,2,2,19.1,3,28,24,2,none,,3,24,low,none,FAKE emergency order,2026-09-01
+6,fake-1008,Remy Holt,RB,KC,56,55,3,2,2,15.0,3,30,26,0,none,,3,26,low,none,FAKE emergency order,2026-09-01
+7,fake-1009,Pilot Greer,RB,ATL,50,48,3,3,3,13.4,4,45,38,1,B,3-4,4,38,low,none,FAKE emergency order,2026-09-01

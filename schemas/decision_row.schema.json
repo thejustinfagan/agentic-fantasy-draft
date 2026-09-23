@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/agentic-fantasy-draft/schemas/decision_row.schema.json",
+  "title": "Unified decision and forecast row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["decision_id", "snapshot_checksum_sha256", "type", "priority", "subjects", "current_status", "lock_time_utc", "horizons", "proposed_action", "why_now", "evidence", "rationale", "roster_impact", "cost", "downside", "do_nothing_outcome", "alternatives", "activation_trigger", "invalidation_triggers", "confidence", "deadline_utc", "lifecycle_status", "approval"],
+  "properties": {
+    "decision_id": {"type": "string", "minLength": 8},
+    "snapshot_checksum_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "type": {"enum": ["BYE", "WAIVER", "FREE_AGENT", "ROSTER_IR", "LINEUP", "TRADE_SHORT", "TRADE_LONG", "TRADE_BOTH", "HOLD"]},
+    "priority": {"type": "integer", "minimum": 1},
+    "subjects": {"type": "array", "items": {"$ref": "#/$defs/subject"}},
+    "current_status": {"type": "string", "minLength": 1},
+    "lock_time_utc": {"type": ["string", "null"], "format": "date-time"},
+    "horizons": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["current_week", "next_2", "next_4", "next_6", "playoffs_15_17", "keeper_year"]}},
+    "proposed_action": {"type": "object", "minProperties": 1},
+    "why_now": {"type": "string", "minLength": 1},
+    "evidence": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidence"}},
+    "rationale": {"type": "string", "minLength": 20},
+    "roster_impact": {"type": "string", "minLength": 1},
+    "cost": {"type": "string", "minLength": 1},
+    "downside": {"type": "string", "minLength": 1},
+    "do_nothing_outcome": {"type": "string", "minLength": 1},
+    "alternatives": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "activation_trigger": {"type": "string", "minLength": 1},
+    "invalidation_triggers": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "main_uncertainty"],
+      "properties": {
+        "level": {"enum": ["high", "medium", "low"]},
+        "main_uncertainty": {"type": "string", "minLength": 1}
+      }
+    },
+    "deadline_utc": {"type": ["string", "null"], "format": "date-time"},
+    "lifecycle_status": {"enum": ["OBSERVE", "RECOMMENDED", "PENDING_APPROVAL", "APPROVED", "PREFLIGHT", "EXECUTING", "VERIFIED", "STALE", "BLOCKED", "AMBIGUOUS"]},
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "approval_card_id", "state"],
+      "properties": {
+        "required": {"type": "boolean"},
+        "approval_card_id": {"type": ["string", "null"]},
+        "state": {"enum": ["NOT_APPROVED", "APPROVED", "REJECTED", "EXPIRED", "STALE", "REVOKED"]}
+      }
+    }
+  },
+  "$defs": {
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sleeper_id", "name", "position", "nfl_team", "roster_id"],
+      "properties": {
+        "sleeper_id": {"type": "string", "minLength": 1},
+        "name": {"type": "string", "minLength": 1},
+        "position": {"enum": ["QB", "RB", "WR", "TE"]},
+        "nfl_team": {"type": ["string", "null"]},
+        "roster_id": {"type": ["integer", "null"]}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "description", "url", "retrieved_at_utc"],
+      "properties": {
+        "kind": {"enum": ["source_fact", "model_estimate", "analyst_inference", "rule"]},
+        "description": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "minLength": 1},
+        "retrieved_at_utc": {"type": "string", "format": "date-time"}
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+preset_rank,sleeper_id,player_name,position,team,final_score,current_year_score,overall_tier,position_rank,position_tier,projection_league_points,expected_round,ffc_adp,keeper_adjusted_market_pick,value_gap,rookie_keeper_grade,target_window,queue_earliest_round,queue_floor_pick,confidence,roster_gate,rationale,as_of_date
+1,fake-2001,Wren Calder,QB,SEA,87,86,1,1,1,24.1,1,6,5,1,none,,1,5,low,none,FAKE emergency order — not a Sleeper queue dump,2026-09-01
+2,fake-2002,Ivo Marsh,WR,MIA,80,79,1,1,1,20.2,1,9,7,1,none,,1,7,low,none,FAKE emergency order — not a Sleeper queue dump,2026-09-01
+3,fake-2003,Quin Harlow,RB,DET,78,77,1,1,1,19.0,1,11,8,1,none,,1,8,low,none,FAKE emergency order — not a Sleeper queue dump,2026-09-01
+4,fake-2004,Tess Quay,WR,GB,69,68,2,2,2,17.6,2,18,14,1,none,,2,14,low,none,FAKE emergency order — not a Sleeper queue dump,2026-09-01
+5,fake-2005,Boone Laird,QB,LAC,66,64,2,2,2,20.0,3,32,26,3,none,,3,26,low,none,FAKE emergency order — not a Sleeper queue dump,2026-09-01
+6,fake-2006,Remy Holt,RB,KC,63,62,2,2,2,16.4,2,28,22,1,none,,2,22,low,none,FAKE emergency order — not a Sleeper queue dump,2026-09-01
+7,fake-2007,Pilot Greer,RB,ATL,52,49,3,4,3,13.8,5,55,46,2,B,5-7,5,46,low,none,FAKE emergency order — not a Sleeper queue dump,2026-09-01

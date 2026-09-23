@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/agentic-fantasy-draft/schemas/approval_card.schema.json",
+  "title": "Immutable approval card",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["approval_card_id", "action_hash_sha256", "snapshot_checksum_sha256", "snapshot_time_utc", "freshness_limit_seconds", "created_at_utc", "expires_at_utc", "league_id", "roster_id", "action_type", "exact_action", "players", "rationale", "evidence", "roster_impact", "cost_and_downside", "alternatives", "do_nothing_outcome", "confidence", "approval_state", "approver", "approved_at_utc", "invalidation_triggers", "consumed"],
+  "properties": {
+    "approval_card_id": {"type": "string", "minLength": 8},
+    "action_hash_sha256": {"$ref": "#/$defs/hash"},
+    "snapshot_checksum_sha256": {"$ref": "#/$defs/hash"},
+    "snapshot_time_utc": {"type": "string", "format": "date-time"},
+    "freshness_limit_seconds": {"type": "integer", "minimum": 1},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "expires_at_utc": {"type": "string", "format": "date-time"},
+    "league_id": {"type": "string", "minLength": 1},
+    "roster_id": {"type": "integer", "minimum": 1},
+    "action_type": {"enum": ["waiver_claim", "free_agent_add_drop", "roster_ir_move", "lineup_change", "trade_offer", "trade_counter", "trade_accept", "trade_reject", "trade_cancel"]},
+    "exact_action": {"type": "object", "minProperties": 1},
+    "players": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/player"}},
+    "rationale": {"type": "string", "minLength": 20},
+    "evidence": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidence"}},
+    "roster_impact": {"type": "string", "minLength": 1},
+    "cost_and_downside": {"type": "string", "minLength": 1},
+    "alternatives": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "do_nothing_outcome": {"type": "string", "minLength": 1},
+    "confidence": {"enum": ["high", "medium", "low"]},
+    "approval_state": {"enum": ["NOT_APPROVED", "APPROVED", "REJECTED", "EXPIRED", "STALE", "REVOKED"]},
+    "approver": {"type": ["string", "null"]},
+    "approved_at_utc": {"type": ["string", "null"], "format": "date-time"},
+    "invalidation_triggers": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "consumed": {"type": "boolean"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"approval_state": {"const": "APPROVED"}}},
+      "then": {
+        "properties": {
+          "approver": {"type": "string", "minLength": 1},
+          "approved_at_utc": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"approval_state": {"const": "NOT_APPROVED"}}},
+      "then": {
+        "properties": {
+          "approver": {"type": "null"},
+          "approved_at_utc": {"type": "null"},
+          "consumed": {"const": false}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"action_type": {"const": "waiver_claim"}}},
+      "then": {"properties": {"exact_action": {"type": "object", "required": ["action_type", "mutation", "add_sleeper_id", "drop_sleeper_id", "recommended_faab", "priority", "fallback_chain"], "properties": {"action_type": {"const": "waiver_claim"}, "mutation": {"const": true}, "add_sleeper_id": {"type": "string", "minLength": 1}, "drop_sleeper_id": {"type": "string", "minLength": 1}, "recommended_faab": {"type": "integer", "minimum": 0}, "priority": {"type": "integer", "minimum": 1}, "fallback_chain": {"type": "array"}}}}}
+    },
+    {
+      "if": {"properties": {"action_type": {"const": "free_agent_add_drop"}}},
+      "then": {"properties": {"exact_action": {"type": "object", "required": ["action_type", "mutation", "add_sleeper_id", "drop_sleeper_id", "faab"], "properties": {"action_type": {"const": "free_agent_add_drop"}, "mutation": {"const": true}, "add_sleeper_id": {"type": "string", "minLength": 1}, "drop_sleeper_id": {"type": "string", "minLength": 1}, "faab": {"const": 0}}}}}
+    },
+    {
+      "if": {"properties": {"action_type": {"const": "roster_ir_move"}}},
+      "then": {"properties": {"exact_action": {"type": "object", "required": ["action_type", "mutation", "sleeper_id"], "properties": {"action_type": {"enum": ["move_to_ir", "activate_from_ir"]}, "mutation": {"const": true}, "sleeper_id": {"type": "string", "minLength": 1}}}}}
+    },
+    {
+      "if": {"properties": {"action_type": {"const": "lineup_change"}}},
+      "then": {"properties": {"exact_action": {"type": "object", "required": ["action_type", "mutation", "assignments"], "properties": {"action_type": {"const": "set_lineup"}, "mutation": {"const": true}, "assignments": {"type": "array", "minItems": 1}}}}}
+    },
+    {
+      "if": {"properties": {"action_type": {"const": "trade_offer"}}},
+      "then": {"properties": {"exact_action": {"type": "object", "required": ["action_type", "mutation", "outgoing_sleeper_ids", "incoming_sleeper_ids", "target_roster_id", "horizon", "our_rationale", "counterpart_rationale", "opening_offer", "walk_away_price"], "properties": {"action_type": {"const": "trade_concept"}, "mutation": {"const": true}, "outgoing_sleeper_ids": {"type": "array", "minItems": 1}, "incoming_sleeper_ids": {"type": "array", "minItems": 1}, "target_roster_id": {"type": "integer", "minimum": 1}, "horizon": {"enum": ["short", "long", "both", "current"]}, "our_rationale": {"type": "string", "minLength": 20}, "counterpart_rationale": {"type": "string", "minLength": 20}, "opening_offer": {"type": "object"}, "walk_away_price": {"type": "object"}}}}}
+    }
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "player": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sleeper_id", "name", "position", "nfl_team", "roster_id"],
+      "properties": {
+        "sleeper_id": {"type": "string", "minLength": 1},
+        "name": {"type": "string", "minLength": 1},
+        "position": {"enum": ["QB", "RB", "WR", "TE"]},
+        "nfl_team": {"type": ["string", "null"]},
+        "roster_id": {"type": ["integer", "null"]}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "description", "url", "retrieved_at_utc"],
+      "properties": {
+        "kind": {"enum": ["source_fact", "model_estimate", "analyst_inference", "rule"]},
+        "description": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "minLength": 1},
+        "retrieved_at_utc": {"type": "string", "format": "date-time"}
+      }
+    }
+  }
+}

@@ -1,0 +1,2 @@
+player_name,sleeper_id,position,team,flag_type,action,reason,clearance_condition,last_verified,source_url,source_note,model_pool_rank,ffc_adp,current_year_score
+Jory Finch,fake-1004,RB,CHI,HARD_AVOID,exclude,FAKE boom-bust injury flag,never in this fixture,2026-09-01,https://example.com/fake-avoid,synthetic,8,33,42

@@ -1,0 +1,17 @@
+season,draft_id,pick_no,round,draft_slot,original_roster_id,current_roster_id,traded_pick,validation_note
+2026,draft-harbor-mini,1,1,1,2,2,false,FAKE untraded snake
+2026,draft-harbor-mini,2,1,2,1,1,false,FAKE untraded snake
+2026,draft-harbor-mini,3,1,3,3,3,false,FAKE untraded snake
+2026,draft-harbor-mini,4,1,4,4,4,false,FAKE untraded snake
+2026,draft-harbor-mini,5,2,4,4,4,false,FAKE untraded snake
+2026,draft-harbor-mini,6,2,3,3,3,false,FAKE untraded snake
+2026,draft-harbor-mini,7,2,2,1,1,false,FAKE untraded snake
+2026,draft-harbor-mini,8,2,1,2,2,false,FAKE untraded snake
+2026,draft-harbor-mini,9,3,1,2,2,false,FAKE untraded snake
+2026,draft-harbor-mini,10,3,2,1,1,false,FAKE untraded snake
+2026,draft-harbor-mini,11,3,3,3,3,false,FAKE untraded snake
+2026,draft-harbor-mini,12,3,4,4,4,false,FAKE untraded snake
+2026,draft-harbor-mini,13,4,4,4,4,false,FAKE untraded snake
+2026,draft-harbor-mini,14,4,3,3,3,false,FAKE untraded snake
+2026,draft-harbor-mini,15,4,2,1,1,false,FAKE untraded snake
+2026,draft-harbor-mini,16,4,1,2,2,false,FAKE untraded snake

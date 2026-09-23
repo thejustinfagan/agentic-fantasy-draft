@@ -1,0 +1,14 @@
+[
+  {
+    "slot": 2,
+    "round": 4,
+    "player_id": "fake-k1",
+    "name": "Reed Calder"
+  },
+  {
+    "slot": 1,
+    "round": 3,
+    "player_id": "fake-k2",
+    "name": "Pax Ellison"
+  }
+]
